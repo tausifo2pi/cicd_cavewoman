@@ -27,7 +27,8 @@ case "${1:-}" in
     transfer) run "Transfer server files"  true  false false false false false ;;
     setup)    run "Install Docker on EC2"  false true  false false false false ;;
     ssl)      run "Generate SSL cert"      false false true  false false false ;;
-    deploy)   run "Build & Deploy"         false false false true  true  true  ;;
+    deploy)    run "Build & Deploy"         false false false true  true  true  ;;
+    renew-ssl) run "Renew SSL cert"         false false true  false false false ;;
     all)
         echo "Running full one-time EC2 setup..."
         run "Transfer server files"  true  false false false false false
@@ -42,7 +43,8 @@ case "${1:-}" in
         echo "  transfer  — upload server config files to EC2"
         echo "  setup     — install Docker on EC2 (run once)"
         echo "  ssl       — generate SSL certificate (run once)"
-        echo "  deploy    — build image and deploy to EC2"
-        echo "  all       — run transfer + setup + ssl in sequence"
+        echo "  deploy     — build image and deploy to EC2"
+        echo "  renew-ssl  — manually renew SSL cert"
+        echo "  all        — run transfer + setup + ssl in sequence"
         ;;
 esac
