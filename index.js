@@ -9,8 +9,8 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
-app.get('/', (req, res) => {
-    res.json(`<h1>${process.env.MESSAGE }</h1>`);
+app.use('/', (req, res) => {
+    res.send(`<h1>${process.env.MESSAGE }</h1>`);
 });
 
 const port = process.env.PORT || 5000;
