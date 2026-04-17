@@ -1,0 +1,6 @@
+name: cicd-cavewoman
+runtime:
+  name: nodejs
+  options:
+    typescript: false
+description: AWS infrastructure provisioning for the app server
