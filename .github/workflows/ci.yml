@@ -53,6 +53,8 @@ jobs:
         run: scp -o StrictHostKeyChecking=no ./infra/server/update_ec2.sh ec2-user@${{ secrets.API_SERVER }}:/home/ec2-user/server/update_ec2.sh
       - name: Transfer ssl.sh
         run: scp -o StrictHostKeyChecking=no ./infra/server/ssl.sh ec2-user@${{ secrets.API_SERVER }}:/home/ec2-user/server/ssl.sh
+      - name: Transfer renew_ssl.sh
+        run: scp -o StrictHostKeyChecking=no ./infra/server/renew_ssl.sh ec2-user@${{ secrets.API_SERVER }}:/home/ec2-user/server/renew_ssl.sh
 
   update-ec2:
     if: ${{ github.event.inputs.update_ec2 == 'true' }}
@@ -96,10 +98,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create .env
-        run: |
-          echo "PORT=${{ secrets.PORT || '5000' }}" >> .env
-          echo "NODE_ENV=production" >> .env
-          echo "MESSAGE=${{ secrets.MESSAGE }}" >> .env
+        run: echo "${{ secrets.APP_ENV }}" > .env
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin

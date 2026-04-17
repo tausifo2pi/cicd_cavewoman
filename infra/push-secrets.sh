@@ -41,5 +41,11 @@ while IFS= read -r line || [ -n "$line" ]; do
     echo "  ✓ $KEY"
 done < "$ENV_FILE"
 
+# Also push the entire file as APP_ENV (used by CI to write .env in one step)
+if [ "$ENV_FILE" = ".env" ]; then
+    gh secret set APP_ENV --body "$(cat $ENV_FILE)" --repo "$REPO"
+    echo "  ✓ APP_ENV (entire .env file)"
+fi
+
 echo ""
 echo "Done. All secrets from $ENV_FILE are now set on $REPO"
