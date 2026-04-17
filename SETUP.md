@@ -35,17 +35,17 @@ npm run push-ci-secrets
 cd infra
 pulumi stack init dev
 pulumi config set aws:region ap-south-1
-pulumi config set appName your-app-name
+pulumi config set appName cavewoman
 pulumi up
 ```
 
 After `pulumi up` finishes:
 - Note the `publicIp` output → set as `API_SERVER` in `.env.ci`
-- `your-app-name.pem` is saved in `infra/` automatically
+- `cavewoman.pem` is saved in `infra/` automatically
 
 ```bash
-# SSH key must be pushed directly — multiline PEM breaks push-secrets.sh
-gh secret set SSH_PRIVATE_KEY < infra/your-app-name.pem --repo your-user/your-repo
+# SSH key must be pushed directly — multiline PEM breaks push-secrets.sh update user name and repo
+gh secret set SSH_PRIVATE_KEY < infra/cavewoman.pem --repo tausifo2pi/cicd_cavewoman
 
 # push remaining CI secrets
 npm run push-ci-secrets
@@ -56,14 +56,14 @@ npm run push-ci-secrets
 ## 4. One-time EC2 Setup (run once in order)
 
 ```bash
-npm run workflow:transfer   # upload nginx.conf, docker-compose.yml, scripts to EC2
-npm run workflow:setup      # install Docker + Docker Compose on EC2
+npm run workflow:transfer 
+npm run workflow:setup
 ```
 
 Point domain DNS A record to the EC2 IP, then:
 
 ```bash
-npm run workflow:ssl        # generate Let's Encrypt SSL cert
+npm run workflow:ssl       
 ```
 
 ---
@@ -71,7 +71,7 @@ npm run workflow:ssl        # generate Let's Encrypt SSL cert
 ## 5. Deploy
 
 ```bash
-git push origin main        # auto-triggers build + deploy + cleanup
+git push origin main      
 ```
 
 Or manually:
@@ -115,7 +115,7 @@ cd infra
 pulumi destroy
 pulumi up
 
-gh secret set SSH_PRIVATE_KEY < infra/your-app-name.pem --repo your-user/your-repo
+gh secret set SSH_PRIVATE_KEY < infra/cavewoman.pem --repo your-user/your-repo
 # update API_SERVER in .env.ci with new IP
 npm run push-ci-secrets
 
